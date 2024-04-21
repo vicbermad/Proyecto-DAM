@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "724000650745",
+    "project_id": "musicheads-8d1e3",
+    "storage_bucket": "musicheads-8d1e3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:724000650745:android:2904ad287ff71ee9797928",
+        "android_client_info": {
+          "package_name": "net.proyecto.victorberenguermadrid.musicheads"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBglh5sZQgOBvQcfVRa7v9kjJawETT7WLQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
