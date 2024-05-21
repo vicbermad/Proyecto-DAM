@@ -31,11 +31,13 @@ private var _binding: FragmentSlideshowBinding? = null
     slideshowViewModel.text.observe(viewLifecycleOwner) {
       textView.text = it
     }
+
     return root
   }
 
-override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun onDestroyView() {
+            super.onDestroyView()
+            _binding = null
     }
+
 }
