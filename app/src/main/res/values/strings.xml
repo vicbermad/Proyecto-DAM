@@ -10,4 +10,11 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_logout">Cerrar Sesión</string>
+    <string name="edad">Edad: %s</string>
+    <string name="nombre">Nombre: %s</string>
+    <string name="biografia">Biografia: %s</string>
+    <string name="datosartista">DatosArtistaFragment</string>
+    <string name="album_title">Album Title: %s</string>
+    <string name="artist_name">Artist Name: %s</string>
+    <string name="date">Date: %s</string>
 </resources>

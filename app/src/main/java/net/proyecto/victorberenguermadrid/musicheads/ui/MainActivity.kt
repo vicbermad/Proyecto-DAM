@@ -47,6 +47,11 @@ private lateinit var binding: ActivityMainBinding
             cerrarSesion()
             true
         }
+
+        navView.menu.findItem(R.id.nav_gallery).setOnMenuItemClickListener {
+            verArtista()
+            true
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -63,6 +68,10 @@ private lateinit var binding: ActivityMainBinding
     private fun cerrarSesion() {
         FirebaseAuth.getInstance().signOut()
         startActivity(Intent(this,StartActivity::class.java))
+    }
+
+    private fun verArtista(){
+        findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.DatosArtistaFragment)
     }
 
 }

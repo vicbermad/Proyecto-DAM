@@ -22,4 +22,10 @@
         android:name="net.proyecto.victorberenguermadrid.musicheads.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_logout"
         tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/DatosArtistaFragment"
+        android:name="net.proyecto.victorberenguermadrid.musicheads.ui.DatosArtistaFragment"
+        android:label="@string/datosartista"
+        tools:layout="@layout/fragment_datos_artista"/>
+
 </navigation>
