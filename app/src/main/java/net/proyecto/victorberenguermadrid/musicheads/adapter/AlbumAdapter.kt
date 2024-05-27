@@ -8,11 +8,19 @@ import androidx.recyclerview.widget.RecyclerView
 import net.proyecto.victorberenguermadrid.musicheads.R
 import net.proyecto.victorberenguermadrid.musicheads.model.Album
 
-class AlbumAdapter(private val albumList: List<Album>) : RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
+class AlbumAdapter(private val albumList: List<Album>, private val clickListener: (Album) -> Unit) : RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
 
     inner class AlbumViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val albumTitle: TextView = itemView.findViewById(R.id.albumTitle)
-        val albumArtist: TextView = itemView.findViewById(R.id.albumArtist)
+        val albumTitle: TextView = itemView.findViewById(R.id.tvAlbumTitle)
+        val albumArtist: TextView = itemView.findViewById(R.id.tvAlbumArtist)
+
+        fun bind(album: Album, clickListener: (Album) -> Unit) {
+            albumTitle.text = album.titulo
+
+            itemView.setOnClickListener {
+                clickListener(album)
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumViewHolder {
@@ -32,6 +40,7 @@ class AlbumAdapter(private val albumList: List<Album>) : RecyclerView.Adapter<Al
         }?.addOnFailureListener { exception ->
             holder.albumArtist.text = "Error: ${exception.message}"
         }
+        holder.bind(currentAlbum, clickListener)
     }
 
     override fun getItemCount() = albumList.size

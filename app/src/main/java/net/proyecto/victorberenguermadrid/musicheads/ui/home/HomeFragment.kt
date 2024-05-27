@@ -8,6 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -48,7 +49,16 @@ private var _binding: FragmentHomeBinding? = null
 
       recyclerView = root.findViewById(R.id.recyclerViewAlbums)
       recyclerView.layoutManager = LinearLayoutManager(requireContext())
-      albumAdapter = AlbumAdapter(albumList)
+      albumAdapter = AlbumAdapter(albumList) { album ->
+          val bundle = Bundle().apply {
+              putString("albumTitle", album.titulo)
+              album.artistRef?.let { putString("artistRefPath", it.path) }
+              putString("albumDate", album.lanzamiento?.toDate()?.toString())
+              putInt("albumNumSongs", album.num_canciones)
+              putString("albumGenre", album.genero)
+          }
+          findNavController().navigate(R.id.action_homeFragment_to_albumDetailFragment, bundle)
+      }
       recyclerView.adapter = albumAdapter
 
       fetchAlbumsFromFirestore()

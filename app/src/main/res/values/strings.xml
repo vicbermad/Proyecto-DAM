@@ -17,4 +17,7 @@
     <string name="album_title">Album Title: %s</string>
     <string name="artist_name">Artist Name: %s</string>
     <string name="date">Date: %s</string>
+    <string name="datosalbum">DatosAlbumFragment</string>
+    <string name="songnum">SongNum: %s</string>
+    <string name="genre">Genre: %s</string>
 </resources>

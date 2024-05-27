@@ -9,7 +9,11 @@
         android:id="@+id/nav_home"
         android:name="net.proyecto.victorberenguermadrid.musicheads.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+    <action
+        android:id="@+id/action_homeFragment_to_albumDetailFragment"
+        app:destination="@id/datosAlbumFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_gallery"
@@ -27,5 +31,10 @@
         android:name="net.proyecto.victorberenguermadrid.musicheads.ui.DatosArtistaFragment"
         android:label="@string/datosartista"
         tools:layout="@layout/fragment_datos_artista"/>
+    <fragment
+        android:id="@+id/datosAlbumFragment"
+        android:name="net.proyecto.victorberenguermadrid.musicheads.ui.DatosAlbumFragment"
+        android:label="@string/datosalbum"
+        tools:layout="@layout/fragment_datos_album"/>
 
 </navigation>
