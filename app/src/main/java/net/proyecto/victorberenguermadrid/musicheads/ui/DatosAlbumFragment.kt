@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.firestore.FirebaseFirestore
 import net.proyecto.victorberenguermadrid.musicheads.R
 
@@ -37,7 +38,7 @@ class DatosAlbumFragment : Fragment(){
         albumTitle.text = title
         albumArtist.text = artist
         albumDate.text = date
-        albumNumSongs.text = numSongs?.toString() + " Songs"
+        albumNumSongs.text = numSongs?.toString() + " Canciones"
         albumGenre.text = genre
 
         if (artist != null) {
@@ -51,6 +52,30 @@ class DatosAlbumFragment : Fragment(){
             }.addOnFailureListener { exception ->
                 albumArtist.text = "Error: ${exception.message}"
             }
+        }
+
+        val db = FirebaseFirestore.getInstance()
+        val artistDocumentRef = db.document(artist ?: "")
+        artistDocumentRef.get().addOnSuccessListener { document ->
+            if (document != null) {
+                val artistName = document.getString("nombre")
+                val artistAge = document.getLong("edad")?.toInt()
+                val artistBio = document.getString("biografia")
+
+                albumArtist.text = artistName
+
+                // Configurar el click listener para navegar a ArtistDetailFragment
+                albumArtist.setOnClickListener {
+                    val bundle = Bundle().apply {
+                        putString("artistName", artistName)
+                        putInt("artistAge", artistAge ?: 0)
+                        putString("artistBio", artistBio)
+                    }
+                    findNavController().navigate(R.id.action_datosAlbumFragment_to_DatosArtistaFragment, bundle)
+                }
+            }
+        }.addOnFailureListener { exception ->
+            albumArtist.text = "Error: ${exception.message}"
         }
     }
 }

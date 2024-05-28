@@ -17,6 +17,16 @@ class AlbumAdapter(private val albumList: List<Album>, private val clickListener
         fun bind(album: Album, clickListener: (Album) -> Unit) {
             albumTitle.text = album.titulo
 
+            album.artistRef?.get()?.addOnSuccessListener { document ->
+                if (document != null) {
+                    albumArtist.text = document.getString("nombre")
+                } else {
+                    albumArtist.text = "Unknown Artist"
+                }
+            }?.addOnFailureListener { exception ->
+                albumArtist.text = "Error: ${exception.message}"
+            }
+
             itemView.setOnClickListener {
                 clickListener(album)
             }

@@ -27,7 +27,7 @@
         android:label="@string/menu_logout"
         tools:layout="@layout/fragment_slideshow" />
     <fragment
-        android:id="@+id/DatosArtistaFragment"
+        android:id="@+id/datosArtistaFragment"
         android:name="net.proyecto.victorberenguermadrid.musicheads.ui.DatosArtistaFragment"
         android:label="@string/datosartista"
         tools:layout="@layout/fragment_datos_artista"/>
@@ -35,6 +35,11 @@
         android:id="@+id/datosAlbumFragment"
         android:name="net.proyecto.victorberenguermadrid.musicheads.ui.DatosAlbumFragment"
         android:label="@string/datosalbum"
-        tools:layout="@layout/fragment_datos_album"/>
+        tools:layout="@layout/fragment_datos_album">
+        <action
+            android:id="@+id/action_datosAlbumFragment_to_DatosArtistaFragment"
+            app:destination="@id/datosArtistaFragment" />
+    </fragment>
+
 
 </navigation>

@@ -71,7 +71,7 @@ private lateinit var binding: ActivityMainBinding
     }
 
     private fun verArtista(){
-        findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.DatosArtistaFragment)
+        findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.datosArtistaFragment)
     }
 
 }
