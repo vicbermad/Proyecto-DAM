@@ -20,4 +20,9 @@
     <string name="datosalbum">DatosAlbumFragment</string>
     <string name="songnum">SongNum: %s</string>
     <string name="genre">Genre: %s</string>
+    <string name="artist_name_item">Artist Name</string>
+    <string name="search">Search</string>
+    <string name="searchfragment">SearchFragment</string>
+    <string name="nombrebusqueda">NombreBusqueda</string>
+    <string name="infobusqueda">InfoBusqueda</string>
 </resources>

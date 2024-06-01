@@ -8,7 +8,10 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
 import net.proyecto.victorberenguermadrid.musicheads.R
 
 class StartActivity : AppCompatActivity() {
@@ -26,6 +29,9 @@ class StartActivity : AppCompatActivity() {
         AuthUI.IdpConfig.TwitterBuilder().build(),
         AuthUI.IdpConfig.GoogleBuilder().build()*/
     )
+
+    private lateinit var db: FirebaseFirestore
+
     /**
      * Cuando firebaseUI termine, volverá a este método que nos permitirá o abrir la
      * app principal o cerrarla
@@ -33,8 +39,28 @@ class StartActivity : AppCompatActivity() {
     private fun resultadoAutenticacion(result: FirebaseAuthUIAuthenticationResult) {
         val response = result.idpResponse
         if (result.resultCode == RESULT_OK) {
-            //Si estamos autenticados, vamos a la actividad Principal
-            startActivity(Intent(this,MainActivity::class.java))
+            // Si estamos autenticados, guardamos el usuario en Firestore y vamos a la actividad Principal
+            val user = FirebaseAuth.getInstance().currentUser
+            user?.let {
+                val userId = it.uid
+                val userEmail = it.email
+
+                val userMap = hashMapOf(
+                    "uid" to userId,
+                    "email" to userEmail,
+                )
+
+                db.collection("usuarios").document(userId)
+                    .set(userMap)
+                    .addOnSuccessListener {
+                        // Usuario guardado exitosamente, iniciamos la actividad principal
+                        startActivity(Intent(this, MainActivity::class.java))
+                        finish()
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(this, "Error al guardar usuario: $e", Toast.LENGTH_LONG).show()
+                    }
+            }
 
         } else { //si hay error
             var msg_error = ""
@@ -55,9 +81,13 @@ class StartActivity : AppCompatActivity() {
             finish()
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start)
+
+        db = Firebase.firestore
+
         //Si el usuario está autenticado. Por defecto tenemos smartLock y puede estar
         //autenticado
         //vamos directamente a iniciar la app

@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tvAlbumTitle"
+        android:id="@+id/tvAlbumTitleDatos"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -26,7 +26,7 @@
         android:layout_marginTop="8dp"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvAlbumArtist"
+        app:layout_constraintTop_toBottomOf="@+id/tvAlbumArtistDatos"
         tools:text="@string/date" />
 
     <TextView
@@ -37,7 +37,7 @@
         android:layout_marginTop="8dp"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/tvAlbumDate"
-        app:layout_constraintTop_toBottomOf="@+id/tvAlbumArtist"
+        app:layout_constraintTop_toBottomOf="@+id/tvAlbumArtistDatos"
         tools:text="@string/songnum" />
 
     <TextView
@@ -48,18 +48,31 @@
         android:layout_marginTop="8dp"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/tvSongNum"
-        app:layout_constraintTop_toBottomOf="@+id/tvAlbumArtist"
+        app:layout_constraintTop_toBottomOf="@+id/tvAlbumArtistDatos"
         tools:text="@string/genre" />
 
     <TextView
-        android:id="@+id/tvAlbumArtist"
+        android:id="@+id/tvAlbumArtistDatos"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvAlbumTitle"
+        app:layout_constraintTop_toBottomOf="@+id/tvAlbumTitleDatos"
         tools:text="@string/artist_name" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabFav"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#6200EE"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_heart"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

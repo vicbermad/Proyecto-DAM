@@ -10,9 +10,24 @@
         android:name="net.proyecto.victorberenguermadrid.musicheads.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" >
-    <action
-        android:id="@+id/action_homeFragment_to_albumDetailFragment"
-        app:destination="@id/datosAlbumFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_albumDetailFragment"
+            app:destination="@id/datosAlbumFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="net.proyecto.victorberenguermadrid.musicheads.ui.SearchFragment"
+        android:label="@string/searchfragment" >
+        <action
+            android:id="@+id/action_searchFragment_to_datosAlbumFragment"
+            app:destination="@id/datosAlbumFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_datosArtistaFragment"
+            app:destination="@id/datosArtistaFragment" />
     </fragment>
 
     <fragment
@@ -26,11 +41,7 @@
         android:name="net.proyecto.victorberenguermadrid.musicheads.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_logout"
         tools:layout="@layout/fragment_slideshow" />
-    <fragment
-        android:id="@+id/datosArtistaFragment"
-        android:name="net.proyecto.victorberenguermadrid.musicheads.ui.DatosArtistaFragment"
-        android:label="@string/datosartista"
-        tools:layout="@layout/fragment_datos_artista"/>
+
     <fragment
         android:id="@+id/datosAlbumFragment"
         android:name="net.proyecto.victorberenguermadrid.musicheads.ui.DatosAlbumFragment"
@@ -40,6 +51,16 @@
             android:id="@+id/action_datosAlbumFragment_to_DatosArtistaFragment"
             app:destination="@id/datosArtistaFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/datosArtistaFragment"
+        android:name="net.proyecto.victorberenguermadrid.musicheads.ui.DatosArtistaFragment"
+        android:label="@string/datosartista"
+        tools:layout="@layout/fragment_datos_artista"/>
+
+
+
+
 
 
 </navigation>
