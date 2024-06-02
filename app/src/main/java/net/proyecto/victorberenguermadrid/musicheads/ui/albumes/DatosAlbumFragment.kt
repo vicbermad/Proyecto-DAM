@@ -1,7 +1,7 @@
-package net.proyecto.victorberenguermadrid.musicheads.ui
+package net.proyecto.victorberenguermadrid.musicheads.ui.albumes
 
+import android.icu.text.SimpleDateFormat
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +12,13 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import net.proyecto.victorberenguermadrid.musicheads.Firebase.FirebaseAccess
+import net.proyecto.victorberenguermadrid.musicheads.Firebase.FirebaseContract
 import net.proyecto.victorberenguermadrid.musicheads.R
-import net.proyecto.victorberenguermadrid.musicheads.model.Album
+import net.proyecto.victorberenguermadrid.musicheads.model.Artista
+import java.text.DateFormat
+import java.text.ParseException
+import java.util.Locale
 
 class DatosAlbumFragment : Fragment(){
 
@@ -38,16 +43,21 @@ class DatosAlbumFragment : Fragment(){
         // Obtener los datos del Bundle
         val title = arguments?.getString("albumTitle")
         val artist = arguments?.getString("artistRefPath")
-        val date = arguments?.getString("albumDate")
+        val dateString = arguments?.getString("albumDate")
         val numSongs = arguments?.getInt("albumNumSongs")
         val genre = arguments?.getString("albumGenre")
 
-
+        // Convertir la cadena de fecha a Timestamp
+        val inputFormat  = SimpleDateFormat("EEE MMM dd HH:mm:ss 'GMT' yyyy", Locale.ENGLISH)
+        val dateE = inputFormat.parse(dateString)
+        val outputFormat = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
+        val formattedDate = outputFormat.format(dateE)
+        //DateFormat.getDateInstance(DateFormat.FULL).format(dateString)
 
         // Configurar los TextViews con los datos del álbum
         albumTitle.text = title
         albumArtist.text = artist
-        albumDate.text = date
+        albumDate.text = formattedDate
         albumNumSongs.text = numSongs?.toString() + " Canciones"
         albumGenre.text = genre
 
@@ -112,23 +122,29 @@ class DatosAlbumFragment : Fragment(){
             }
         }
     }
-    private fun addAlbumToFavorites(userId: String, albumId: String?, artistId: String?, fabFavorite: FloatingActionButton) {
+    private fun addAlbumToFavorites(userId: String, title: String?, artistId: String?, fabFavorite: FloatingActionButton) {
         val db = FirebaseFirestore.getInstance()
-        val favoriteRef = db.collection("usuarios").document(userId).collection("favoritos").document(albumId!!)
+        val favoriteRef = db.collection("usuarios").document(userId).collection("favoritos").document(title!!)
 
-        val albumRef = db.document(artistId!!).collection("albumes").document(albumId)
-        val favoriteData = hashMapOf("albumRef" to albumRef)
-
-        favoriteRef.set(favoriteData)
-            .addOnSuccessListener {
-                // Actualizar el icono a corazón lleno
-                fabFavorite.setImageResource(R.drawable.ic_heart)
-                Toast.makeText(fabFavorite.context, "Álbum añadido a favoritos", Toast.LENGTH_SHORT).show()
+        //Obtener id de Documento Album
+        db.document(artistId!!).collection("albumes").whereEqualTo("titulo", title).get().addOnSuccessListener {
+                documents ->
+            for (document in documents) {
+                val id = document.id
+                val albumRef = db.document(artistId!!).collection("albumes").document(id)
+                val favoriteData = hashMapOf("albumRef" to albumRef)
+                favoriteRef.set(favoriteData)
+                    .addOnSuccessListener {
+                        // Actualizar el icono a corazón lleno
+                        fabFavorite.setImageResource(R.drawable.ic_heart)
+                        Toast.makeText(fabFavorite.context, "Álbum añadido a favoritos", Toast.LENGTH_SHORT).show()
+                    }
+                    .addOnFailureListener { e ->
+                        // Manejar el error
+                        Toast.makeText(fabFavorite.context, "Error al añadir a favoritos: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
             }
-            .addOnFailureListener { e ->
-                // Manejar el error
-                Toast.makeText(fabFavorite.context, "Error al añadir a favoritos: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
+        }
     }
     private fun removeAlbumFromFavorites(userId: String, albumId: String?, fabFavorite: FloatingActionButton) {
         val db = FirebaseFirestore.getInstance()

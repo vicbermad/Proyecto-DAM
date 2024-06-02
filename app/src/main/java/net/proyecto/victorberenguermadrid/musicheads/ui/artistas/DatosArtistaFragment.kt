@@ -1,6 +1,5 @@
-package net.proyecto.victorberenguermadrid.musicheads.ui
+package net.proyecto.victorberenguermadrid.musicheads.ui.artistas
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import net.proyecto.victorberenguermadrid.musicheads.R
 import net.proyecto.victorberenguermadrid.musicheads.databinding.FragmentDatosArtistaBinding
-import net.proyecto.victorberenguermadrid.musicheads.model.Artista
 import net.proyecto.victorberenguermadrid.musicheads.viewmodel.AppViewModel
 
 class DatosArtistaFragment : Fragment(){

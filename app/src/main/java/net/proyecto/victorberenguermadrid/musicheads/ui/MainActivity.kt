@@ -11,9 +11,11 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import com.google.firebase.auth.FirebaseAuth
 import net.proyecto.victorberenguermadrid.musicheads.R
 import net.proyecto.victorberenguermadrid.musicheads.databinding.ActivityMainBinding
+import net.proyecto.victorberenguermadrid.musicheads.ui.favoritos.FavoritosFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,13 +34,15 @@ private lateinit var binding: ActivityMainBinding
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }*/
+
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_main)
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.nav_home, R.id.nav_gallery, R.id.nav_logout
+            R.id.nav_home, R.id.nav_favorites, R.id.nav_logout
         ), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
@@ -48,8 +52,10 @@ private lateinit var binding: ActivityMainBinding
             true
         }
 
-        navView.menu.findItem(R.id.nav_gallery).setOnMenuItemClickListener {
-            verArtista()
+        // Navegar a FavoritosFragment
+        navView.menu.findItem(R.id.nav_favorites).setOnMenuItemClickListener {
+            navController.navigate(R.id.favoritosFragment)
+            drawerLayout.closeDrawer(GravityCompat.START)
             true
         }
     }

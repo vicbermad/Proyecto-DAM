@@ -87,19 +87,25 @@ class AlbumAdapter(
         val db = FirebaseFirestore.getInstance()
         val favoriteRef = db.collection("usuarios").document(userId).collection("favoritos").document(album.titulo!!)
 
-        val albumRef = db.collection("artistas").document(album.artistRef.toString()).collection("albumes").document(album.titulo)
-        val favoriteData = hashMapOf("albumRef" to albumRef)
-
-        favoriteRef.set(favoriteData)
-            .addOnSuccessListener {
-                // Actualizar el icono a corazón lleno
-                favoriteButton.setImageResource(R.drawable.ic_heart)
-                Toast.makeText(favoriteButton.context, "Álbum añadido a favoritos", Toast.LENGTH_SHORT).show()
+        //Obtener id de Documento Album
+        db.document(album.artistRef!!.path).collection("albumes").whereEqualTo("titulo", album.titulo).get().addOnSuccessListener {
+                documents ->
+            for (document in documents) {
+                val id = document.id
+                val albumRef = db.document(album.artistRef!!.path).collection("albumes").document(id)
+                val favoriteData = hashMapOf("albumRef" to albumRef)
+                favoriteRef.set(favoriteData)
+                    .addOnSuccessListener {
+                        // Actualizar el icono a corazón lleno
+                        favoriteButton.setImageResource(R.drawable.ic_heart)
+                        Toast.makeText(favoriteButton.context, "Álbum añadido a favoritos", Toast.LENGTH_SHORT).show()
+                    }
+                    .addOnFailureListener { e ->
+                        // Manejar el error
+                        Toast.makeText(favoriteButton.context, "Error al añadir a favoritos: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
             }
-            .addOnFailureListener {e ->
-                // Manejar el error
-                Toast.makeText(favoriteButton.context, "Error al añadir a favoritos: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
+        }
     }
 
     private fun removeAlbumFromFavorites(userId: String, albumId: String, favoriteButton: ImageView) {

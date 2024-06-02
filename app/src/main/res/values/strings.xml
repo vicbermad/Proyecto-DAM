@@ -25,4 +25,6 @@
     <string name="searchfragment">SearchFragment</string>
     <string name="nombrebusqueda">NombreBusqueda</string>
     <string name="infobusqueda">InfoBusqueda</string>
+    <string name="menu_favoritos">Favoritos</string>
+    <string name="favoritosfragment">FavoritosFragment</string>
 </resources>

@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_albumDetailFragment"
             app:destination="@id/datosAlbumFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_favoritosFragment"
+            app:destination="@id/favoritosFragment" />
     </fragment>
 
     <fragment
@@ -31,12 +34,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="net.proyecto.victorberenguermadrid.musicheads.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
-
-    <fragment
         android:id="@+id/nav_slideshow"
         android:name="net.proyecto.victorberenguermadrid.musicheads.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_logout"
@@ -44,7 +41,7 @@
 
     <fragment
         android:id="@+id/datosAlbumFragment"
-        android:name="net.proyecto.victorberenguermadrid.musicheads.ui.DatosAlbumFragment"
+        android:name="net.proyecto.victorberenguermadrid.musicheads.ui.albumes.DatosAlbumFragment"
         android:label="@string/datosalbum"
         tools:layout="@layout/fragment_datos_album">
         <action
@@ -54,13 +51,17 @@
 
     <fragment
         android:id="@+id/datosArtistaFragment"
-        android:name="net.proyecto.victorberenguermadrid.musicheads.ui.DatosArtistaFragment"
+        android:name="net.proyecto.victorberenguermadrid.musicheads.ui.artistas.DatosArtistaFragment"
         android:label="@string/datosartista"
         tools:layout="@layout/fragment_datos_artista"/>
-
-
-
-
+    <fragment
+        android:id="@+id/favoritosFragment"
+        android:name="net.proyecto.victorberenguermadrid.musicheads.ui.favoritos.FavoritosFragment"
+        android:label="@string/favoritosfragment" >
+        <action
+            android:id="@+id/action_favoritosFragment_to_datosAlbumFragment"
+            app:destination="@id/datosAlbumFragment" />
+    </fragment>
 
 
 </navigation>
