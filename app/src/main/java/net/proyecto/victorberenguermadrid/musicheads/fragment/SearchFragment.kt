@@ -61,7 +61,7 @@ class SearchFragment : Fragment() {
     private fun loadData() {
         val db = FirebaseFirestore.getInstance()
 
-        // Load artists
+        // Cargar artistas
         db.collection("artistas")
             .get()
             .addOnSuccessListener { result ->
@@ -88,7 +88,7 @@ class SearchFragment : Fragment() {
     private fun performSearch(query: String) {
         searchResults.clear()
 
-        // Search for artists
+        // Buscar artistas
         val matchedArtists =
             artistasList.filter { it.nombre?.contains(query, ignoreCase = true) == true }
         matchedArtists.forEach { artist ->
@@ -106,7 +106,7 @@ class SearchFragment : Fragment() {
             }
         }
 
-        // Search for albums
+        // Buscar albumes
         val matchedAlbums =
             albumsList.filter { it.album.titulo?.contains(query, ignoreCase = true) == true }
         matchedAlbums.forEach { albumWithArtist ->

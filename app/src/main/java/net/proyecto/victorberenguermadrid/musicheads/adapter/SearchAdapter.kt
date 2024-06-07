@@ -13,8 +13,8 @@ import net.proyecto.victorberenguermadrid.musicheads.R
 data class Search(
     val id: String,
     val name: String,
-    val type: String,  // "album" or "artist"
-    val additionalInfo: String? = null, // Any additional info such as artist name for albums
+    val type: String,  // "album" o "artist"
+    val additionalInfo: String? = null, // Informacion adicional en caso de album, el artista correspondiente
     val imageUrl: String? = null
 )
 class SearchAdapter(

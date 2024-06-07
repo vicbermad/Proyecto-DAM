@@ -8,17 +8,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import net.proyecto.victorberenguermadrid.musicheads.R
 import net.proyecto.victorberenguermadrid.musicheads.databinding.FragmentDatosArtistaBinding
-import net.proyecto.victorberenguermadrid.musicheads.viewmodel.AppViewModel
 
 class DatosArtistaFragment : Fragment(){
     private var _binding: FragmentDatosArtistaBinding? = null
-    private val viewModel: AppViewModel by activityViewModels()
 
     private val binding get() = _binding!!
 
@@ -34,7 +31,6 @@ class DatosArtistaFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.obtenDatosArtista()
         val artistName = view.findViewById<TextView>(R.id.tvNombre)
         val artistAge = view.findViewById<TextView>(R.id.tvEdad)
         val artistBio = view.findViewById<TextView>(R.id.tvBiografia)

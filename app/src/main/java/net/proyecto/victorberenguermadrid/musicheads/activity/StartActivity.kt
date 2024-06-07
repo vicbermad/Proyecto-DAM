@@ -61,12 +61,12 @@ class StartActivity : AppCompatActivity() {
         } else { //si hay error
             var msg_error = ""
             if (response == null) {
-                // User pressed back button
+                // Usuario pulsa botón atrás
                 msg_error = "Es necesario autenticarse";
             } else if (response.getError()!!.getErrorCode() ==
                 ErrorCodes.NO_NETWORK) {
                 msg_error = "No hay red disponible para autenticarse";
-            } else { //if (response.getErrorCode() == ErrorCodes.UNKNOWN_ERROR) {
+            } else {
                 msg_error = "Error desconocido al autenticarse";
             }
             Toast.makeText(
@@ -91,7 +91,7 @@ class StartActivity : AppCompatActivity() {
             finish()
             startActivity(Intent(this,MainActivity::class.java))
         }else{//iniciamos proceso autenticación
-            // Create and launch sign-in intent
+            // Crear y lanzar sign-in intent
             val signInIntent = AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 //con que permitimos autenticarnos(correo, telefono,google...)

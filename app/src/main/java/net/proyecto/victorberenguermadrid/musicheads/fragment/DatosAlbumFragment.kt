@@ -82,7 +82,7 @@ class DatosAlbumFragment : Fragment(){
                 if (document != null) {
                     albumArtist.text = document.getString("nombre")
                 } else {
-                    albumArtist.text = "Unknown Artist"
+                    albumArtist.text = "Artista Desconocido"
                 }
             }.addOnFailureListener { exception ->
                 albumArtist.text = "Error: ${exception.message}"

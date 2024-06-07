@@ -18,30 +18,22 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import net.proyecto.victorberenguermadrid.musicheads.R
 import net.proyecto.victorberenguermadrid.musicheads.adapter.AlbumAdapter
-import net.proyecto.victorberenguermadrid.musicheads.adapter.ArtistAdapter
 import net.proyecto.victorberenguermadrid.musicheads.databinding.FragmentHomeBinding
 import net.proyecto.victorberenguermadrid.musicheads.model.Album
-import net.proyecto.victorberenguermadrid.musicheads.model.Artista
 
 class HomeFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var albumAdapter: AlbumAdapter
-    private lateinit var artistAdapter: ArtistAdapter
     private val albumList = mutableListOf<Album>()
-    private val artistList = mutableListOf<Artista>()
     private val db = FirebaseFirestore.getInstance()
     val user = FirebaseAuth.getInstance().currentUser
 
 private var _binding: FragmentHomeBinding? = null
-    lateinit var auth:FirebaseAuth
-  // This property is only valid between onCreateView and
-  // onDestroyView.
   private val binding get() = _binding!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //inicioUsuario()
         // Agregar MenuProvider para manejar el menú
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
@@ -88,35 +80,10 @@ private var _binding: FragmentHomeBinding? = null
           recyclerView.adapter = albumAdapter
       }
 
-
-      /*
-      artistAdapter = ArtistAdapter(artistList) { artist ->
-          val bundle = Bundle().apply {
-              putString("artistName", artist.nombre)
-              putInt("artistAge", artist.edad)
-              putString("artistBio", artist.biografia)
-          }
-          findNavController().navigate(R.id.action_homeFragment_to_artistDetailFragment, bundle)
-      }
-       */
-
-
-
       fetchAlbumsFromFirestore()
-      //fetchArtistsFromFirestore()
 
     return root
   }
-
-
-
-    /*
-    fun inicioUsuario(){
-        auth=FirebaseAuth.getInstance()
-        val userFireBase=auth.currentUser
-        binding.tvUser.text= "${userFireBase?.displayName} - ${userFireBase?.email}"
-    }
-     */
 
     private fun fetchAlbumsFromFirestore() {
         albumList.clear()
@@ -133,23 +100,9 @@ private var _binding: FragmentHomeBinding? = null
                     }
             }
         }.addOnFailureListener { exception ->
-            Toast.makeText(requireContext(), "Error getting documents: $exception", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Error obteniendo documentos: $exception", Toast.LENGTH_SHORT).show()
         }
     }
-
-    /*
-    private fun fetchArtistsFromFirestore() {
-        db.collection("artistas").get().addOnSuccessListener { result ->
-            for (artistDocument in result) {
-                val artist = artistDocument.toObject(Artista::class.java)
-                artistList.add(artist)
-            }
-            artistAdapter.notifyDataSetChanged()
-        }.addOnFailureListener { exception ->
-            Toast.makeText(requireContext(), "Error getting documents: $exception", Toast.LENGTH_SHORT).show()
-        }
-    }
-     */
 
     override fun onDestroyView() {
         super.onDestroyView()
