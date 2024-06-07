@@ -1,11 +1,11 @@
-package net.proyecto.victorberenguermadrid.musicheads.ui.favoritos
+package net.proyecto.victorberenguermadrid.musicheads.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,6 +36,8 @@ class FavoritosFragment : Fragment(){
         recyclerView = view.findViewById(R.id.recycler_view_favorites)
         recyclerView.layoutManager = LinearLayoutManager(context)
 
+        (activity as AppCompatActivity).supportActionBar?.title = "Mis Álbumes Favoritos"
+
         favoritesAdapter = FavoritosAdapter(albumList, { album ->
             val bundle = Bundle().apply {
                 putString("albumTitle", album.titulo)
@@ -43,6 +45,7 @@ class FavoritosFragment : Fragment(){
                 putString("albumDate", album.lanzamiento?.toDate()?.toString())
                 putInt("albumNumSongs", album.num_canciones)
                 putString("albumGenre", album.genero)
+                putString("albumImageUrl", album.imagenUrl)
             }
             findNavController().navigate(R.id.action_favoritosFragment_to_datosAlbumFragment, bundle)
         }, { album ->

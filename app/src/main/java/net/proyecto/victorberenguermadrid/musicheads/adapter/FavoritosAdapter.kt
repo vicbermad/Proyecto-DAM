@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import net.proyecto.victorberenguermadrid.musicheads.R
 import net.proyecto.victorberenguermadrid.musicheads.model.Album
 
@@ -19,6 +20,7 @@ class FavoritosAdapter(
         val albumTitle: TextView = itemView.findViewById(R.id.tvAlbumTitle)
         val albumArtist: TextView = itemView.findViewById(R.id.tvAlbumArtist)
         val favoriteButton: ImageView = itemView.findViewById(R.id.ivFavorito)
+        val favItemImageView: ImageView = itemView.findViewById(R.id.ivItemAlbum)
 
         init {
             itemView.setOnClickListener {
@@ -55,6 +57,12 @@ class FavoritosAdapter(
         }?.addOnFailureListener { exception ->
             holder.albumArtist.text = "Error: ${exception.message}"
         }
+
+        Glide.with(holder.itemView.context)
+            .load(album.imagenUrl)
+            .placeholder(R.drawable.ic_launcher_background)
+            .error(R.drawable.ic_alert_circle)
+            .into(holder.favItemImageView)
     }
 
     override fun getItemCount() = favoriteAlbums.size

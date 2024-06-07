@@ -3,8 +3,10 @@ package net.proyecto.victorberenguermadrid.musicheads.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import net.proyecto.victorberenguermadrid.musicheads.R
 
 
@@ -12,7 +14,8 @@ data class Search(
     val id: String,
     val name: String,
     val type: String,  // "album" or "artist"
-    val additionalInfo: String? = null // Any additional info such as artist name for albums
+    val additionalInfo: String? = null, // Any additional info such as artist name for albums
+    val imageUrl: String? = null
 )
 class SearchAdapter(
     private val searchResults: List<Search>,
@@ -22,6 +25,8 @@ class SearchAdapter(
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val nameTextView: TextView = view.findViewById(R.id.tvNombreBusqueda)
         val additionalInfoTextView: TextView = view.findViewById(R.id.tvInfoBusqueda)
+        val searchItemImageView: ImageView = itemView.findViewById(R.id.ivItemSearch)
+
 
         init {
             view.setOnClickListener {
@@ -40,6 +45,12 @@ class SearchAdapter(
         val searchResult = searchResults[position]
         holder.nameTextView.text = searchResult.name
         holder.additionalInfoTextView.text = searchResult.additionalInfo
+
+        Glide.with(holder.itemView.context)
+            .load(searchResult.imageUrl)
+            .placeholder(R.drawable.ic_launcher_background)
+            .error(R.drawable.ic_alert_circle)
+            .into(holder.searchItemImageView)
     }
 
     override fun getItemCount() = searchResults.size

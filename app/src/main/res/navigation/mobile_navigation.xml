@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="net.proyecto.victorberenguermadrid.musicheads.ui.home.HomeFragment"
+        android:name="net.proyecto.victorberenguermadrid.musicheads.fragment.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/searchFragment"
-        android:name="net.proyecto.victorberenguermadrid.musicheads.ui.SearchFragment"
+        android:name="net.proyecto.victorberenguermadrid.musicheads.fragment.SearchFragment"
         android:label="@string/searchfragment" >
         <action
             android:id="@+id/action_searchFragment_to_datosAlbumFragment"
@@ -34,14 +34,8 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="net.proyecto.victorberenguermadrid.musicheads.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_logout"
-        tools:layout="@layout/fragment_slideshow" />
-
-    <fragment
         android:id="@+id/datosAlbumFragment"
-        android:name="net.proyecto.victorberenguermadrid.musicheads.ui.albumes.DatosAlbumFragment"
+        android:name="net.proyecto.victorberenguermadrid.musicheads.fragment.DatosAlbumFragment"
         android:label="@string/datosalbum"
         tools:layout="@layout/fragment_datos_album">
         <action
@@ -51,12 +45,12 @@
 
     <fragment
         android:id="@+id/datosArtistaFragment"
-        android:name="net.proyecto.victorberenguermadrid.musicheads.ui.artistas.DatosArtistaFragment"
+        android:name="net.proyecto.victorberenguermadrid.musicheads.fragment.DatosArtistaFragment"
         android:label="@string/datosartista"
         tools:layout="@layout/fragment_datos_artista"/>
     <fragment
         android:id="@+id/favoritosFragment"
-        android:name="net.proyecto.victorberenguermadrid.musicheads.ui.favoritos.FavoritosFragment"
+        android:name="net.proyecto.victorberenguermadrid.musicheads.fragment.FavoritosFragment"
         android:label="@string/favoritosfragment" >
         <action
             android:id="@+id/action_favoritosFragment_to_datosAlbumFragment"

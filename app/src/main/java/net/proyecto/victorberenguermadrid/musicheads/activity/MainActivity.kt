@@ -1,8 +1,9 @@
-package net.proyecto.victorberenguermadrid.musicheads.ui
+package net.proyecto.victorberenguermadrid.musicheads.activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import com.google.android.material.snackbar.Snackbar
+import android.util.Log
+import android.widget.ImageView
+import android.widget.TextView
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -12,15 +13,16 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import net.proyecto.victorberenguermadrid.musicheads.R
 import net.proyecto.victorberenguermadrid.musicheads.databinding.ActivityMainBinding
-import net.proyecto.victorberenguermadrid.musicheads.ui.favoritos.FavoritosFragment
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +59,41 @@ private lateinit var binding: ActivityMainBinding
             navController.navigate(R.id.favoritosFragment)
             drawerLayout.closeDrawer(GravityCompat.START)
             true
+        }
+        val headerView = navView.getHeaderView(0)
+        val tvUserName = headerView.findViewById<TextView>(R.id.tvUserName)
+        val tvUserEmail = headerView.findViewById<TextView>(R.id.tvUserEmail)
+        val ivUserImage = headerView.findViewById<ImageView>(R.id.ivUserImage)
+
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+
+        if (userId != null) {
+            val db = FirebaseFirestore.getInstance()
+            val userRef = db.collection("usuarios").document(userId)
+
+            userRef.get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        val userName = document.getString("username")
+                        val userEmail = document.getString("email")
+                        val imageUrl = document.getString("imagenUrl")
+
+                        tvUserName.text = userName
+                        tvUserEmail.text = userEmail
+
+                        if (!imageUrl.isNullOrEmpty()) {
+                            Glide.with(this)
+                                .load(imageUrl)
+                                .placeholder(R.drawable.side_nav_bar) // Imagen de reemplazo mientras se carga la imagen real
+                                .error(R.drawable.ic_alert_circle) // Imagen en caso de error
+                                .into(ivUserImage)
+                        }
+
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.w("MainActivity", "Error getting user details: ", exception)
+                }
         }
     }
 

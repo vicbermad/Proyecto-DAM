@@ -1,4 +1,4 @@
-package net.proyecto.victorberenguermadrid.musicheads.ui
+package net.proyecto.victorberenguermadrid.musicheads.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -23,11 +23,7 @@ class StartActivity : AppCompatActivity() {
     }
     //la lista de los proveedores con los que nos podemos autenticar
     val proveedoresAuth = arrayListOf(
-        AuthUI.IdpConfig.EmailBuilder().build()/*,
-        AuthUI.IdpConfig.PhoneBuilder().build()
-        AuthUI.IdpConfig.FacebookBuilder().build()
-        AuthUI.IdpConfig.TwitterBuilder().build(),
-        AuthUI.IdpConfig.GoogleBuilder().build()*/
+        AuthUI.IdpConfig.EmailBuilder().build()
     )
 
     private lateinit var db: FirebaseFirestore

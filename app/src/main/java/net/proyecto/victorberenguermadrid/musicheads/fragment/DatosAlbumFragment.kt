@@ -1,23 +1,23 @@
-package net.proyecto.victorberenguermadrid.musicheads.ui.albumes
+package net.proyecto.victorberenguermadrid.musicheads.fragment
 
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import net.proyecto.victorberenguermadrid.musicheads.Firebase.FirebaseAccess
-import net.proyecto.victorberenguermadrid.musicheads.Firebase.FirebaseContract
 import net.proyecto.victorberenguermadrid.musicheads.R
-import net.proyecto.victorberenguermadrid.musicheads.model.Artista
-import java.text.DateFormat
-import java.text.ParseException
 import java.util.Locale
 
 class DatosAlbumFragment : Fragment(){
@@ -39,6 +39,7 @@ class DatosAlbumFragment : Fragment(){
         val albumNumSongs = view.findViewById<TextView>(R.id.tvSongNum)
         val albumGenre = view.findViewById<TextView>(R.id.tvAlbumGenre)
         val fabFavorite = view.findViewById<FloatingActionButton>(R.id.fabFav)
+        val albumImageView = view.findViewById<ImageView>(R.id.ivAlbum)
 
         // Obtener los datos del Bundle
         val title = arguments?.getString("albumTitle")
@@ -46,6 +47,7 @@ class DatosAlbumFragment : Fragment(){
         val dateString = arguments?.getString("albumDate")
         val numSongs = arguments?.getInt("albumNumSongs")
         val genre = arguments?.getString("albumGenre")
+        val imageUrl = arguments?.getString("albumImageUrl")
 
         // Convertir la cadena de fecha a Timestamp
         val inputFormat  = SimpleDateFormat("EEE MMM dd HH:mm:ss 'GMT' yyyy", Locale.ENGLISH)
@@ -58,8 +60,19 @@ class DatosAlbumFragment : Fragment(){
         albumTitle.text = title
         albumArtist.text = artist
         albumDate.text = formattedDate
-        albumNumSongs.text = numSongs?.toString() + " Canciones"
+        albumNumSongs.text ="·" + numSongs?.toString() + " Canciones ·"
         albumGenre.text = genre
+
+        if (!imageUrl.isNullOrEmpty()) {
+            Glide.with(this)
+                .load(imageUrl)
+                .apply(RequestOptions().transform(RoundedCorners(16)))
+                .placeholder(R.drawable.side_nav_bar) // Imagen de reemplazo mientras se carga la imagen real
+                .error(R.drawable.ic_alert_circle) // Imagen en caso de error
+                .into(albumImageView)
+        }
+
+        (activity as AppCompatActivity).supportActionBar?.title = title
 
         val userId = FirebaseAuth.getInstance().currentUser?.uid
 
@@ -83,6 +96,7 @@ class DatosAlbumFragment : Fragment(){
                 val artistName = document.getString("nombre")
                 val artistAge = document.getLong("edad")?.toInt()
                 val artistBio = document.getString("biografia")
+                val artistImgUrl = document.getString("imagenUrl")
 
                 albumArtist.text = artistName
 
@@ -92,6 +106,7 @@ class DatosAlbumFragment : Fragment(){
                         putString("artistName", artistName)
                         putInt("artistAge", artistAge ?: 0)
                         putString("artistBio", artistBio)
+                        putString("artistImageUrl", artistImgUrl)
                     }
                     findNavController().navigate(R.id.action_datosAlbumFragment_to_DatosArtistaFragment, bundle)
                 }

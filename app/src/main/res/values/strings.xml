@@ -21,10 +21,11 @@
     <string name="songnum">SongNum: %s</string>
     <string name="genre">Genre: %s</string>
     <string name="artist_name_item">Artist Name</string>
-    <string name="search">Search</string>
+    <string name="search">Buscar</string>
     <string name="searchfragment">SearchFragment</string>
     <string name="nombrebusqueda">NombreBusqueda</string>
     <string name="infobusqueda">InfoBusqueda</string>
     <string name="menu_favoritos">Favoritos</string>
     <string name="favoritosfragment">FavoritosFragment</string>
+    <string name="ultimos_albumes">Últimos Álbumes añadidos</string>
 </resources>

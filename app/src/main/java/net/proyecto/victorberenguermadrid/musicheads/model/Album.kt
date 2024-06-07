@@ -8,6 +8,7 @@ data class Album (
     val genero: String? = null,
     val lanzamiento: Timestamp? = null,
     val num_canciones: Int = 0,
-    val artistRef: DocumentReference? = null
+    val artistRef: DocumentReference? = null,
+    val imagenUrl: String? = null
 )
 

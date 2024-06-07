@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
 import net.proyecto.victorberenguermadrid.musicheads.R
 import net.proyecto.victorberenguermadrid.musicheads.model.Album
@@ -18,6 +19,7 @@ class AlbumAdapter(
 ) : RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
 
     inner class AlbumViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val albumImageView: ImageView = itemView.findViewById(R.id.ivItemAlbum)
         val albumTitle: TextView = itemView.findViewById(R.id.tvAlbumTitle)
         val albumArtist: TextView = itemView.findViewById(R.id.tvAlbumArtist)
         val favoriteButton: ImageView = itemView.findViewById(R.id.ivFavorito)
@@ -59,6 +61,13 @@ class AlbumAdapter(
         }?.addOnFailureListener { exception ->
             holder.albumArtist.text = "Error: ${exception.message}"
         }
+
+        Glide.with(holder.itemView.context)
+            .load(currentAlbum.imagenUrl)
+            .placeholder(R.drawable.ic_launcher_background)
+            .error(R.drawable.ic_alert_circle)
+            .into(holder.albumImageView)
+
         holder.bind(currentAlbum, clickListener)
 
         // Verificar si el álbum ya está en favoritos y actualizar el icono

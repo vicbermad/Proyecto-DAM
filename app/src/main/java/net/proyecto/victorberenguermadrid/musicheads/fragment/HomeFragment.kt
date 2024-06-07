@@ -1,4 +1,4 @@
-package net.proyecto.victorberenguermadrid.musicheads.ui.home
+package net.proyecto.victorberenguermadrid.musicheads.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,12 +7,10 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -68,8 +66,6 @@ private var _binding: FragmentHomeBinding? = null
     container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View {
-    val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
 
     _binding = FragmentHomeBinding.inflate(inflater, container, false)
     val root: View = binding.root
@@ -85,6 +81,7 @@ private var _binding: FragmentHomeBinding? = null
                   putString("albumDate", album.lanzamiento?.toDate()?.toString())
                   putInt("albumNumSongs", album.num_canciones)
                   putString("albumGenre", album.genero)
+                  putString("albumImageUrl", album.imagenUrl)
               }
               findNavController().navigate(R.id.action_homeFragment_to_albumDetailFragment, bundle)
           }
@@ -108,13 +105,6 @@ private var _binding: FragmentHomeBinding? = null
       fetchAlbumsFromFirestore()
       //fetchArtistsFromFirestore()
 
-
-      /*
-    val textView: TextView = binding.tvUser
-    homeViewModel.text.observe(viewLifecycleOwner) {
-      textView.text = it
-    }
-       */
     return root
   }
 
@@ -129,6 +119,8 @@ private var _binding: FragmentHomeBinding? = null
      */
 
     private fun fetchAlbumsFromFirestore() {
+        albumList.clear()
+
         db.collection("artistas").get().addOnSuccessListener { result ->
             for (artistDocument in result) {
                 artistDocument.reference.collection("albumes").get()

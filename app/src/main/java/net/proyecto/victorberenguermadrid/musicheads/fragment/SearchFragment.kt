@@ -1,4 +1,4 @@
-package net.proyecto.victorberenguermadrid.musicheads.ui
+package net.proyecto.victorberenguermadrid.musicheads.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,6 +44,8 @@ class SearchFragment : Fragment() {
         searchResultsAdapter = SearchAdapter(searchResults) { searchResult ->
             handleSearchResultClick(searchResult)
         }
+
+        (activity as AppCompatActivity).supportActionBar?.title = "Buscar Artistas o Álbumes"
 
         searchResultsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         searchResultsRecyclerView.adapter = searchResultsAdapter
@@ -93,8 +95,9 @@ class SearchFragment : Fragment() {
             artist.nombre?.let {
                 Search(
                     id = it,
-                    name = artist.nombre ?: "",
-                    type = "artist"
+                    name = artist.nombre,
+                    type = "artist",
+                    imageUrl = artist.imagenUrl
                 )
             }?.let {
                 searchResults.add(
@@ -110,9 +113,10 @@ class SearchFragment : Fragment() {
             albumWithArtist.album.titulo?.let {
                 Search(
                     id = it,
-                    name = albumWithArtist.album.titulo ?: "",
+                    name = albumWithArtist.album.titulo,
                     type = "album",
-                    additionalInfo = albumWithArtist.artist.nombre
+                    additionalInfo = albumWithArtist.artist.nombre,
+                    imageUrl = albumWithArtist.album.imagenUrl
                 )
             }?.let {
                 searchResults.add(
@@ -125,17 +129,35 @@ class SearchFragment : Fragment() {
     }
 
     private fun handleSearchResultClick(searchResult: Search) {
+        val navController = findNavController()
+        val bundle = Bundle()
+
         when (searchResult.type) {
             "artist" -> {
-                val action =
-                    SearchFragmentDirections.actionSearchFragmentToDatosArtistaFragment()
-                findNavController().navigate(action)
+                val artist = artistasList.find { it.nombre == searchResult.name }
+                artist?.let {
+                    bundle.putString("artistName", it.nombre)
+                    bundle.putInt("artistAge", it.edad)
+                    bundle.putString("artistBio", it.biografia)
+                    bundle.putString("artistImageUrl", it.imagenUrl)
+                    navController.navigate(
+                        R.id.action_searchFragment_to_datosArtistaFragment,
+                        bundle
+                    )
+                }
             }
 
             "album" -> {
-                val action =
-                    SearchFragmentDirections.actionSearchFragmentToDatosAlbumFragment()
-                findNavController().navigate(action)
+                val albumWithArtist = albumsList.find { it.album.titulo == searchResult.name }
+                albumWithArtist?.let {
+                    bundle.putString("albumTitle", it.album.titulo)
+                    bundle.putString("albumGenre", it.album.genero)
+                    bundle.putString("albumDate", it.album.lanzamiento?.toDate()?.toString())
+                    bundle.putInt("albumNumSongs", it.album.num_canciones)
+                    it.album.artistRef?.let { bundle.putString("artistRefPath", it.path) }
+                    bundle.putString("albumImageUrl", it.album.imagenUrl)
+                    navController.navigate(R.id.action_searchFragment_to_datosAlbumFragment, bundle)
+                }
             }
         }
     }
